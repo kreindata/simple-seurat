@@ -35,5 +35,9 @@ Cluster <- function(data, dims, strength) {
   clusters <- FindNeighbors(subvars, dims = 1:dims)
   clusters <- FindClusters(clusters, resolution = 0.5) # edit to add names during this portion?
   clusters <- RunUMAP(clusters, dims = 1:dims)
+  # create vector of names of top markers for each cluster
+  # new.cluster.ids <- c()
+  # names(cluster.ids) <- levels(clusters)
+  # clusters <- RenameIdents(clusters, new.cluster.ids)
   DimPlot(clusters, reduction = "umap", label = TRUE)
 }

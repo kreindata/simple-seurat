@@ -33,7 +33,7 @@ Cluster <- function(data, dims, strength) {
 
   # clustering analysis and visual plotting
   clusters <- FindNeighbors(subvars, dims = 1:dims)
-  clusters <- FindClusters(clusters, resolution = 0.5)
+  clusters <- FindClusters(clusters, resolution = 0.5) # edit to add names during this portion?
   clusters <- RunUMAP(clusters, dims = 1:dims)
   DimPlot(clusters, reduction = "umap", label = TRUE)
 }

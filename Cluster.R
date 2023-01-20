@@ -1,4 +1,4 @@
-Cluster <- function(data, dims, strength) {
+Cluster <- function(data, dims, strength, labels = TRUE) {
   # test for input
   if(missing(data)) stop('Missing input')
   
@@ -31,9 +31,26 @@ Cluster <- function(data, dims, strength) {
   # allows user to set number of dimensions, or by default takes number of dimensions that best fit
   if(missing(dims)) dims <- nrow(scaledPCA)
 
-  # clustering analysis and visual plotting
+  # clustering analysis
   clusters <- FindNeighbors(subvars, dims = 1:dims)
   clusters <- FindClusters(clusters, resolution = 0.5)
   clusters <- RunUMAP(clusters, dims = 1:dims)
-  DimPlot(clusters, reduction = "umap", label = TRUE)
+  
+  cluster.markers <- c()
+  
+  # create vector of names of top markers for each cluster and apply to metadata
+  if(labels == TRUE) {
+    for (i in levels(clusters)) {
+      marker <- FindMarkers(clusters, ident.1 = i, min.pct = 0.25)
+      topmarker <- row.names(head(marker, n = 1))
+      cluster.markers[as.numeric(i)+1]=topmarker
+    }
+  names(cluster.markers) <- levels(clusters)
+  clusters <- RenameIdents(clusters, cluster.markers)
+  }
+  
+  
+  # visual plot and assignment to 'plot'
+  plot <- DimPlot(clusters, reduction = "umap", label = TRUE) + NoLegend()
+  plot
 }

@@ -11,7 +11,7 @@ Cluster <- function(data, dims, strength, labels = TRUE) {
   if(!(substr(type_sum(data), 1, 6) == "Seurat")) stop('Argument should point to data matrix or prepared Seurat object')
 
   # skim outliers and normalize
-  subdata <- subset(sdata, subset = nCount_RNA > quantile(sdata$nFeature_RNA, probs = .02, names = FALSE)  & nFeature_RNA < quantile(sdata$nFeature_RNA, probs = .98, names = FALSE))
+  subdata <- subset(data, subset = nCount_RNA > quantile(data$nFeature_RNA, probs = .02, names = FALSE)  & nFeature_RNA < quantile(data$nFeature_RNA, probs = .98, names = FALSE))
   subdata <- NormalizeData(subdata)
 
   # examine most variable features available in the data and re-normalize, then run PCA analysis

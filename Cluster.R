@@ -1,4 +1,4 @@
-Cluster <- function(data, dims, strength, labels = TRUE) {
+Cluster <- function(data, dims, strength, labels = FALSE) {
   # test for input
   if(missing(data)) stop('Missing input')
   
